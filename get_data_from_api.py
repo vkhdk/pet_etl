@@ -14,6 +14,8 @@ def data_from_google_search(question, google_url, headers, params):
     #add question in params
     params = params
     params['q'] = question
+
+
     # requests.get(url) returns a response that is saved
     # in a response object called page
     page = requests.get(google_url, headers=headers, params=params)
@@ -21,41 +23,16 @@ def data_from_google_search(question, google_url, headers, params):
     # format, we pass it as an argument to BeautifulSoup
     # along with the html.parser which will create a
     # parsed tree in soup
+
     soup = BeautifulSoup(page.text, "html.parser")
-    temp = soup.find('div', attrs={'class': 'BNeawe iBp4i AP7Wnd'}).text
-    hz = soup.find('div', attrs={'class': 'BNeawe tAd8D AP7Wnd'}).text
+    temp = soup.find('div', attrs={'class': 'vk_bk TylWce SGNhVe'})
+    #hz = soup.find('div', attrs={'class': 'BNeawe tAd8D AP7Wnd'}).text
 
     ###################
-    content = hz
+    content = temp
     with open(project_files_and_roles.content, 'w', encoding='utf-8') as outfile:
         outfile.write(str(content))
     ###################
-    
-
-def json_from_html(api_url):
-    # requests.get(url) returns a response that is saved
-    # in a response object called page.
-    page = requests.get(api_url)
-    # page.text gives us access to the web data in text
-    # format, we pass it as an argument to BeautifulSoup
-    # along with the html.parser which will create a
-    # parsed tree in soup
-    soup = BeautifulSoup(page.text, "html.parser")
-    temp = soup.find('div', attrs={'class': 'BNeawe iBp4i AP7Wnd'}).text
-    hz = soup.find('div', attrs={'class': 'BNeawe tAd8D AP7Wnd'}).text
-
-    ###################
-    content = hz
-    with open(project_files_and_roles.content, 'w', encoding='utf-8') as outfile:
-        outfile.write(str(content))
-    ###################
-
-
-
-
-
-
-
 
 
 
@@ -103,5 +80,8 @@ def api_request(api_url, params, headers):
             json.dump(full_error_content, outfile, ensure_ascii=False, indent=4)
 
 if __name__ == '__main__':
-    api_url = secrets.api_url
-    json_from_html(api_url)
+    question = f'weather lucknow'
+    google_url = secrets.google_url
+    headers = secrets.headers
+    params = secrets.params
+    data_from_google_search(question, google_url, headers, params)
