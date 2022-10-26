@@ -1,13 +1,19 @@
 #here are all the links and authorization data
 
 # API credentials
-api_url = 'https://community-open-weather-map.p.rapidapi.com/weather'
 
-params = {'q': 'Токсово',
-          'callback': 'test',
-          'lang': 'null',
-          'units': 'metric ',
-          'mode': 'xml'}
+#google search params
+google_url = f'https://www.google.com/search'
 
-headers = {'X-RapidAPI-Key': '9286d85e38msh4949c4c2a287da9p18c70ajsnc40eacedb8e4',
-           'X-RapidAPI-Host': 'community-open-weather-map.p.rapidapi.com'}
+headers = {
+   'user-agent':
+   f'Mozilla/5.0 (Windows NT 10.0; Win64; x64) '
+   f'AppleWebKit/537.36 (KHTML, like Gecko) '
+   f'Chrome/103.0.5060.134 Safari/537.36'
+   }
+
+params = {
+    'hl': 'en',
+    'gl': 'us',
+    'lr': 'lang_en'
+    }
