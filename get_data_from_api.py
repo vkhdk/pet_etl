@@ -25,7 +25,6 @@ def soup_from_google_search(question):
         }
     #add question in params
     params['q'] = question
-
     # requests.get(url) returns a response that is saved
     # in a response object called page
     page = requests.get(google_url, headers=headers, params=params)
