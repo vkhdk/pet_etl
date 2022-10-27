@@ -10,7 +10,8 @@ from datetime import datetime
 import secrets
 import project_files_and_roles
 
-def data_from_google_search(question):
+#get soup from google search
+def soup_from_google_search(question):
     #url to search
     google_url = f'https://www.google.com/search'
     #basic agent parameters
@@ -37,16 +38,8 @@ def data_from_google_search(question):
     # along with the html.parser which will create a
     # parsed tree in soup
     soup = BeautifulSoup(page.text, "html.parser")
-    #parsing temperature in celsius and fahrenheit based on id
-    temperature_f = soup.select_one("#wob_tm").text
-    temperature_с = soup.select_one("#wob_ttm").text
-    #parsing temperature in celsius and fahrenheit based on id
+    return(soup)
 
-    ###################
-    content = temperature_с
-    with open(project_files_and_roles.content, 'w', encoding='utf-8') as outfile:
-        outfile.write(str(content))
-    ###################
 
 
 
