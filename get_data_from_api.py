@@ -10,11 +10,24 @@ from datetime import datetime
 import secrets
 import project_files_and_roles
 
-def data_from_google_search(question, google_url, headers, params):
+def data_from_google_search(question):
+    #url to search
+    google_url = f'https://www.google.com/search'
+    #basic agent parameters
+    headers = {
+       'user-agent':
+       f'Mozilla/5.0 (Windows NT 10.0; Win64; x64) '
+       f'AppleWebKit/537.36 (KHTML, like Gecko) '
+       f'Chrome/103.0.5060.134 Safari/537.36'
+       }
+    #basic parameters for data output in english
+    params = {
+        'hl': 'en',
+        'gl': 'us',
+        'lr': 'lang_en'
+        }
     #add question in params
-    params = params
     params['q'] = question
-
 
     # requests.get(url) returns a response that is saved
     # in a response object called page
@@ -23,13 +36,14 @@ def data_from_google_search(question, google_url, headers, params):
     # format, we pass it as an argument to BeautifulSoup
     # along with the html.parser which will create a
     # parsed tree in soup
-
     soup = BeautifulSoup(page.text, "html.parser")
-    temp = soup.find('div', attrs={'class': 'vk_bk TylWce SGNhVe'})
-    #hz = soup.find('div', attrs={'class': 'BNeawe tAd8D AP7Wnd'}).text
+    #parsing temperature in celsius and fahrenheit based on id
+    temperature_f = soup.select_one("#wob_tm").text
+    temperature_с = soup.select_one("#wob_ttm").text
+
 
     ###################
-    content = temp
+    content = temperature_с
     with open(project_files_and_roles.content, 'w', encoding='utf-8') as outfile:
         outfile.write(str(content))
     ###################
@@ -80,8 +94,5 @@ def api_request(api_url, params, headers):
             json.dump(full_error_content, outfile, ensure_ascii=False, indent=4)
 
 if __name__ == '__main__':
-    question = f'weather lucknow'
-    google_url = secrets.google_url
-    headers = secrets.headers
-    params = secrets.params
-    data_from_google_search(question, google_url, headers, params)
+    question = f'weather якутск'
+    data_from_google_search(question)
