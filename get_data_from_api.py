@@ -40,7 +40,7 @@ def data_from_google_search(question):
     #parsing temperature in celsius and fahrenheit based on id
     temperature_f = soup.select_one("#wob_tm").text
     temperature_с = soup.select_one("#wob_ttm").text
-
+    #parsing temperature in celsius and fahrenheit based on id
 
     ###################
     content = temperature_с
@@ -92,7 +92,3 @@ def api_request(api_url, params, headers):
         content = res.content
         with open(project_files_and_roles.content, 'w', encoding='utf-8') as outfile:
             json.dump(full_error_content, outfile, ensure_ascii=False, indent=4)
-
-if __name__ == '__main__':
-    question = f'weather якутск'
-    data_from_google_search(question)
