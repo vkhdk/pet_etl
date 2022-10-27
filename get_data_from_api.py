@@ -1,10 +1,8 @@
-#everything related to connecting to the API
+#everything related to connecting to the API or other data source
 
 #importing public libraries
 import requests
 from bs4 import BeautifulSoup
-import json
-from datetime import datetime
 
 #get soup from google search
 def soup_from_google_search(question):
