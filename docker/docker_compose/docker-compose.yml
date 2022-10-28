@@ -1,0 +1,10 @@
+version: '3.9'
+services:
+  jupyter:
+    build:
+      context: .\docker\docker_files
+      dockerfile: dockerfile_jupyter
+    volumes:
+      - ..\file_share\jupyter:/home/jovyan/work
+    ports:
+      - "8888:8888"
