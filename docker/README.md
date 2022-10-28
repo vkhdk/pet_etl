@@ -1,6 +1,6 @@
 # infrastructure on docker
 
-## Task list:
+# docker_files - folder for all docker files
+# docker_compose - folder docker compose files
 
-manual_run:
-- save results in pandas df
+## Task list:

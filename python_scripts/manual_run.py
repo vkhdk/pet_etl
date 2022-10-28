@@ -2,7 +2,7 @@
 import logging
 
 #importing internal modules
-import project_files_and_roles
+import folder_files_and_roles
 import get_data_from_api
 import get_weather_from_google_search
 
@@ -32,6 +32,6 @@ if __name__ == '__main__':
 
     ###################
     content = output_dict
-    with open(project_files_and_roles.content, 'w', encoding='utf-8') as outfile:
+    with open(folder_files_and_roles.content, 'w', encoding='utf-8') as outfile:
         outfile.write(str(content))
     ###################
