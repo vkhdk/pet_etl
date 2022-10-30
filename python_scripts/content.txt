@@ -1,2 +1,1 @@
-| weather_id   | city_name   | temp_c   | temp_f   |
-|--------------|-------------|----------|----------|
+{'Moscow': '{"temperature_f": "45", "temperature_c": "7"}', 'London': '{"temperature_f": "59", "temperature_c": "15"}'}
