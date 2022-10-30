@@ -1,3 +1,11 @@
 #python
 /.__pycache__
 /python_scripts/__pycache__
+
+#jupyter
+/.cache
+/.config
+/.ipynb_checkpoints
+/.ipython
+/.jupyter
+/.local

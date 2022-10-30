@@ -3,7 +3,7 @@ services:
   jupyter:
     build:
       #path to docker files folder
-      context: ../dockerfile
+      context: ../docker_files
       #docker file name for jupyter in docker files folder
       dockerfile: dockerfile_jupyter
     volumes:
