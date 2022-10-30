@@ -1,1 +1,1 @@
-{'Moscow': '{"temperature_f": "46", "temperature_c": "8"}', 'London': '{"temperature_f": "60", "temperature_c": "16"}'}
+{'Moscow': '{"temperature_f": "48", "temperature_c": "9"}', 'London': '{"temperature_f": "59", "temperature_c": "15"}'}
