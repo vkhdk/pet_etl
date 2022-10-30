@@ -50,6 +50,7 @@ if __name__ == '__main__':
                      'date': datetime.now().date(),
                      'time': datetime.now().time(),
                      #data from json
+                     #load string json as dict and write in data dict
                      'city_name': city,
                      'temp_c': json.loads(output_json)['temperature_c'],
                      'temp_f': json.loads(output_json)['temperature_f']
