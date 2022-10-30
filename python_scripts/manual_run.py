@@ -25,7 +25,12 @@ if __name__ == '__main__':
 
     #just debug
     city_names = ['Moscow', 'London']
-    columns = ['weather_id','city_name','temp_c','temp_f']
+    columns = ['weather_id',
+               'date',
+               'time',
+               'city_name',
+               'temp_c',
+               'temp_f']
     db_df = pd.DataFrame(columns=columns)
 
     test_dict = {}
@@ -37,17 +42,23 @@ if __name__ == '__main__':
         logger.info(f'...make json for "{city}"')
         output_json = \
         get_weather_from_google_search.google_soup_to_json_weather(soup)
-        #create unique id
-        row_id = utilities.create_unique_id_from_date()
-        #create date feature
-        row_date = datetime.now().date()
-        row_time = datetime.now().time()
-
-        test_dict[city] = output_json
-        #need add json to df
+        data_dict = {
+                     #create unique id
+                     'weather_id': utilities.create_unique_id_from_date(),
+                     #create date feature
+                     'date': datetime.now().date(),
+                     'time': datetime.now().time(),
+                     #data from json
+                     'city_name': city
+                     #,
+                     #'temp_c': output_json['temperature_c'],
+                     #'temp_f': output_json['temperature_f']
+                     }
+        data_dict_df = pd.DataFrame([data_dict])
+        db_df = pd.concat([db_df,data_dict_df])
 
     ###################
-    content = str(test_dict)
+    content = db_df.to_markdown()
     #content = db_df.to_markdown()
     with open(folder_files_and_roles.content, 'w', encoding='utf-8') as outfile:
         outfile.write(content)
