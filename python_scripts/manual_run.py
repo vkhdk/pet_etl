@@ -55,6 +55,7 @@ if __name__ == '__main__':
                      'temp_c': json.loads(output_json)['temperature_c'],
                      'temp_f': json.loads(output_json)['temperature_f']
                      }
+        #convert data dict to df for concat
         data_dict_df = pd.DataFrame([data_dict])
         db_df = pd.concat([db_df,data_dict_df])
 

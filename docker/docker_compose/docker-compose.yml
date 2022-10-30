@@ -3,11 +3,11 @@ services:
   jupyter:
     build:
       #path to docker files folder
-      context: .\docker\docker_files
+      context: ../dockerfile
       #docker file name for jupyter in docker files folder
       dockerfile: dockerfile_jupyter
     volumes:
       #path to file share
-      - ..\file_share\jupyter:/home/jovyan/work
+      - ../file_share/jupyter/:/home/jovyan/
     ports:
       - "8888:8888"
