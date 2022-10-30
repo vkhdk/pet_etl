@@ -4,6 +4,7 @@ from datetime import datetime
 import logging
 import tabulate
 import pandas as pd
+import json
 
 #importing internal modules
 import folder_files_and_roles
@@ -49,17 +50,15 @@ if __name__ == '__main__':
                      'date': datetime.now().date(),
                      'time': datetime.now().time(),
                      #data from json
-                     'city_name': city
-                     #,
-                     #'temp_c': output_json['temperature_c'],
-                     #'temp_f': output_json['temperature_f']
+                     'city_name': city,
+                     'temp_c': json.loads(output_json)['temperature_c'],
+                     'temp_f': json.loads(output_json)['temperature_f']
                      }
         data_dict_df = pd.DataFrame([data_dict])
         db_df = pd.concat([db_df,data_dict_df])
 
     ###################
     content = db_df.to_markdown()
-    #content = db_df.to_markdown()
     with open(folder_files_and_roles.content, 'w', encoding='utf-8') as outfile:
         outfile.write(content)
     ###################
