@@ -1,5 +1,7 @@
 #importing public libraries
 import logging
+import tabulate
+import pandas as pd
 
 #importing internal modules
 import folder_files_and_roles
@@ -20,7 +22,8 @@ if __name__ == '__main__':
 
     #just debug
     city_names = ['Moscow', 'London']
-    output_dict = {}
+    columns = ['weather_id','city_name','temp_c','temp_f']
+    db_df = pd.DataFrame(columns=columns)
     for city in city_names:
         question = f'weather {city}'
         logger.info(f'...make soup for "{city}"')
@@ -28,10 +31,11 @@ if __name__ == '__main__':
         logger.info(f'...make json for "{city}"')
         output_json = \
         get_weather_from_google_search.google_soup_to_json_weather(soup)
-        output_dict[city] = output_json
+        #need add json to df
 
     ###################
-    content = output_dict
+    content = db_df.to_markdown()
+    #content = db_df.to_markdown()
     with open(folder_files_and_roles.content, 'w', encoding='utf-8') as outfile:
-        outfile.write(str(content))
+        outfile.write(content)
     ###################

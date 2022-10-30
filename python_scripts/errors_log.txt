@@ -1,1 +1,0 @@
-"there is a bug, but there is also content - time:2022-10-24 19:41:23.349038 - code:401 - error content:{'cod': 401, 'message': 'Invalid API key. Please see https://openweathermap.org/faq#error401 for more info.'}"
