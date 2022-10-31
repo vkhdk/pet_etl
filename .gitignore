@@ -1,11 +1,8 @@
 #python_scripts
-/.__pycache__
 /python_scripts/__pycache__
 
-#jupyter
-/docker/file_share/jupyter/.cache
-/docker/file_share/jupyter/.config
-/docker/file_share/jupyter/.ipynb_checkpoints
-/docker/file_share/jupyter/.ipython
-/docker/file_share/jupyter/.jupyter
-/docker/file_share/jupyter/.local
+#jupyter_data
+/docker/file_share/jupyter_data/
+
+#postgresql_data
+/docker/file_share/postgresql_data/

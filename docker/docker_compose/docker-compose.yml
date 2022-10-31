@@ -1,5 +1,6 @@
 version: '3.9'
 services:
+  #jupyter
   jupyter:
     build:
       #path to docker files folder
@@ -8,6 +9,27 @@ services:
       dockerfile: dockerfile_jupyter
     volumes:
       #path to file share
-      - ../file_share/jupyter/:/home/jovyan/
+      - ../file_share/jupyter_data/:/home/jovyan/
     ports:
-      - "8888:8888"
+      - '8888:8888'
+
+  #postgresSQL BD
+  postgres:
+    build:
+      #path to docker files folder
+      context: ../docker_files/postgresql
+      #docker file name for postgresql in docker files folder
+      dockerfile: dockerfile_postgresql
+    volumes:
+      #path to file share
+      - ../file_share/postgresql_data/:/var/lib/postgresql/data
+    #set the DB name, user and password
+    environment:
+      POSTGRES_DB: 'postgres_db'
+      POSTGRES_USER: 'user'
+      POSTGRES_PASSWORD: 'password'
+    ports:
+        - '5432:5432'
+
+volumes:
+  postgresql_data:
