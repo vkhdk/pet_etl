@@ -21,3 +21,6 @@ manual_run = 'manual_run.py'
 
 #manual_run log
 manual_run_log = 'manual_run.log'
+
+#universal functions
+utilities = 'utilities.py'

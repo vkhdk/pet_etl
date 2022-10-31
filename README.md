@@ -17,3 +17,6 @@ where
 - "postgres_db" - DB name from docker-compose sittings (POSTGRES_DB:)
 
 ## Task list:
+
+- need run python scripts in docker
+- need add import connection sittings to docker-compose.yml from secrets

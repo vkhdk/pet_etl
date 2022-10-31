@@ -11,6 +11,7 @@ import folder_files_and_roles
 import get_data_from_api
 import get_weather_from_google_search
 import utilities
+import db_connection
 
 if __name__ == '__main__':
     #logging setup
@@ -58,6 +59,18 @@ if __name__ == '__main__':
         #convert data dict to df for concat
         data_dict_df = pd.DataFrame([data_dict])
         db_df = pd.concat([db_df,data_dict_df])
+
+    ###################
+    #write to DB
+    #engine = db_connection.engine
+    #table_name = 'weather'
+    #db_df.to_sql(table_name, engine, if_exists='replace')
+    ###################
+
+    ###################
+    #read from DB
+    #sql_query = f'select * from {table_name}'
+    #df_from_db = pd.read_sql_query(sql_query, con=engine)
 
     ###################
     content = db_df.to_markdown()
