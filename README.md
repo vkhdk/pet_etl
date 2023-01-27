@@ -19,4 +19,4 @@ where
 ## Task list:
 
 - need run python scripts in docker
-- need add import connection sittings to docker-compose.yml from secrets
+- need add import connection sittings from docker-compose.yml to ETL_secrets
