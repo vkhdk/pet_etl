@@ -1,8 +1,11 @@
 #python_scripts cache
-/docker/python_scripts/ETL_python_scripts/__pycache__
 
 #jupyter_data
-/docker/file_share/jupyter_data/
+/docker/file_share/jupyter_data/python_scripts/ETL_python_scripts/__pycache__
+/docker/file_share/jupyter_data/.cache
+/docker/file_share/jupyter_data/.ipython
+/docker/file_share/jupyter_data/.jupyter
+/docker/file_share/jupyter_data/.local
 
 #postgresql_data
-/docker/file_share/postgresql_data/
+/docker/file_share/postgresql_data
