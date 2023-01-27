@@ -26,8 +26,8 @@ services:
     #set the DB name, user and password
     environment:
       POSTGRES_DB: 'postgres_db'
-      POSTGRES_USER: 'user'
-      POSTGRES_PASSWORD: 'password'
+      POSTGRES_USER: 'postgres'
+      POSTGRES_PASSWORD: 'postgres'
     ports:
         - '5432:5432'
 

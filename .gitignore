@@ -6,6 +6,7 @@
 /docker/file_share/jupyter_data/.ipython
 /docker/file_share/jupyter_data/.jupyter
 /docker/file_share/jupyter_data/.local
+docker/file_share/jupyter_data/.ipynb_checkpoints
 
 #postgresql_data
 /docker/file_share/postgresql_data
