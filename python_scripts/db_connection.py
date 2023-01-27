@@ -2,7 +2,7 @@
 from sqlalchemy import create_engine
 
 #importing internal modules
-from secrets import postgres_db, \
+from ETL_secrets import postgres_db, \
                     postgres_user, \
                     postgres_password, \
                     postgres_port, \
