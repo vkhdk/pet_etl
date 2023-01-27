@@ -10,12 +10,12 @@ import json
 import folder_files_and_roles
 import get_data_from_api
 import get_weather_from_google_search
-import utilities
+import ETL_utilities
 import db_connection
 
 if __name__ == '__main__':
     #logging setup
-    logging.basicConfig(filename='manual_run.log',
+    logging.basicConfig(filename=folder_files_and_roles.manual_run_log,
                         format=f'%(asctime)s'
                                f' - %(name)s'
                                f' - %(levelname)s'
@@ -46,7 +46,7 @@ if __name__ == '__main__':
         get_weather_from_google_search.google_soup_to_json_weather(soup)
         data_dict = {
                      #create unique id
-                     'weather_id': utilities.create_unique_id_from_date(),
+                     'weather_id': ETL_utilities.create_unique_id_from_date(),
                      #create date feature
                      'date': datetime.now().date(),
                      'time': datetime.now().time(),
@@ -73,7 +73,7 @@ if __name__ == '__main__':
     #df_from_db = pd.read_sql_query(sql_query, con=engine)
 
     ###################
-    content = db_df.to_markdown()
+    content = db_df.to_markdown(index=False)
     with open(folder_files_and_roles.content, 'w', encoding='utf-8') as outfile:
         outfile.write(content)
     ###################

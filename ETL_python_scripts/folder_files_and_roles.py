@@ -11,16 +11,16 @@ get_data_from_api = 'get_data_from_api.py'
 get_weather_from_google_search = 'get_weather_from_google_search.py'
 
 #storage of the last error log
-errors_log = 'errors_log.txt'
+errors_log = './errors_log.txt'
 
 #storage of the last content
-content = 'content.txt'
+content = './content.txt'
 
 #debug script
 manual_run = 'manual_run.py'
 
 #manual_run log
-manual_run_log = 'manual_run.log'
+manual_run_log = './manual_run.log'
 
 #universal functions
 ETL_utilities = 'ETL_utilities.py'
