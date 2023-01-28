@@ -2,7 +2,6 @@
 import datetime as dt
 from datetime import datetime
 import logging
-#import tabulate
 import pandas as pd
 import json
 
