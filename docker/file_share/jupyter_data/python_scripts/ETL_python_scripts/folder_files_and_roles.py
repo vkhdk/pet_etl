@@ -14,7 +14,7 @@ get_weather_from_google_search = './get_weather_from_google_search.py'
 errors_log = './errors_log.txt'
 
 #storage of the last content
-content = './content.txt'
+content = './content.csv'
 
 #debug script
 manual_run = './manual_run.py'

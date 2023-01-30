@@ -4,6 +4,7 @@ from datetime import datetime
 import logging
 import pandas as pd
 import json
+import os.path
 
 #importing internal modules
 import folder_files_and_roles
@@ -34,15 +35,18 @@ if __name__ == '__main__':
                'temp_f']
     db_df = pd.DataFrame(columns=columns)
 
-    test_dict = {}
-
+    #take a city
     for city in city_names:
+        #put city in question
         question = f'weather {city}'
         logger.info(f'...make soup for "{city}"')
+        #make soup with question
         soup = get_data_from_api.soup_from_google_search(question)
         logger.info(f'...make json for "{city}"')
+        #make json from soup
         output_json = \
         get_weather_from_google_search.google_soup_to_json_weather(soup)
+        #create a dictionary to save the results
         data_dict = {
                      #create unique id
                      'weather_id': ETL_utilities.create_unique_id_from_date(),
@@ -55,24 +59,19 @@ if __name__ == '__main__':
                      'temp_c': json.loads(output_json)['temperature_c'],
                      'temp_f': json.loads(output_json)['temperature_f']
                      }
-        #convert data dict to df for concat
+        #convert dictionary to df for concat
         data_dict_df = pd.DataFrame([data_dict])
         db_df = pd.concat([db_df,data_dict_df])
 
-    ###################
-    #write to DB
-    #engine = db_connection.engine
-    #table_name = 'weather'
-    #db_df.to_sql(table_name, engine, if_exists='replace')
-    ###################
 
-    ###################
-    #read from DB
-    #sql_query = f'select * from {table_name}'
-    #df_from_db = pd.read_sql_query(sql_query, con=engine)
-
-    ###################
-    content = db_df.to_markdown(index=False)
-    with open(folder_files_and_roles.content, 'w', encoding='utf-8') as outfile:
-        outfile.write(content)
-    ###################
+    ############
+    #debug with write to csv
+    content = db_df
+    content_path = folder_files_and_roles.content
+    if os.path.isfile(content_path):
+        print('file here')
+        content.to_csv(folder_files_and_roles.content, index=False, sep=';',mode='a', header=False)
+    else:
+        print('file not here')
+        content.to_csv(folder_files_and_roles.content, index=False, sep=';')
+    ############
