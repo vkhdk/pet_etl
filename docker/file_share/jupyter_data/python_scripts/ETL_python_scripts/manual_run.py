@@ -5,6 +5,7 @@ import logging
 import pandas as pd
 import json
 import os.path
+from sqlalchemy.types import BigInteger, Time, Date, Float, Integer, Boolean, Text, TIMESTAMP
 
 #importing internal modules
 import folder_files_and_roles
@@ -63,15 +64,56 @@ if __name__ == '__main__':
         data_dict_df = pd.DataFrame([data_dict])
         db_df = pd.concat([db_df,data_dict_df])
 
-
+    
     ############
     #debug with write to csv
-    content = db_df
-    content_path = folder_files_and_roles.content
-    if os.path.isfile(content_path):
-        print('file here')
-        content.to_csv(folder_files_and_roles.content, index=False, sep=';',mode='a', header=False)
-    else:
-        print('file not here')
-        content.to_csv(folder_files_and_roles.content, index=False, sep=';')
     ############
+    #data to write
+    content = db_df
+    #path to file
+    content_path = folder_files_and_roles.content
+    #
+    if os.path.isfile(content_path):
+        #create a file with headers if the file does not exist
+        content.to_csv(folder_files_and_roles.content, 
+            index=False, 
+            sep=';',
+            mode='a', 
+            header=False)
+    else:
+        #add data if the file has already been created without headers
+        content.to_csv(folder_files_and_roles.content, 
+            index=False, 
+            sep=';')
+    ############
+
+    engine = db_connection.engine
+    weather_dtypes = {'time': Time, 
+        'date': Date, 
+        'temp_c': Float, 
+        'temp_f': Float}
+
+    weather_sql_query = '''
+    CREATE TABLE IF NOT EXISTS weather_prod(weather_id TEXT,
+        date DATE,
+        time TIME,
+        city_name TEXT,
+        temp_c FLOAT,
+        temp_f FLOAT);
+    INSERT INTO weather_prod (weather_id,
+        date,
+        time,
+        city_name,
+        temp_c,
+        temp_f)
+    (SELECT weather_id,
+        date,
+        time,
+        city_name,
+        temp_c,
+        temp_f
+    FROM weather_tmp);
+    '''
+
+    db_connection.load_df_to_tpm_table(db_df, 'weather',  weather_dtypes)
+    db_connection.load_tmp_table_to_prod_table(weather_sql_query)
