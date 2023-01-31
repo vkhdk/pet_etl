@@ -2,7 +2,7 @@
 
 #jupyter_data
 /docker/file_share/jupyter_data/python_scripts/ETL_python_scripts/__pycache__
-docker/file_share/jupyter_data/python_scripts/ETL_python_scripts/content.csv
+/docker/file_share/jupyter_data/python_scripts/ETL_python_scripts/content.csv
 /docker/file_share/jupyter_data/python_scripts/ETL_python_scripts/manual_run.log
 /docker/file_share/jupyter_data/.cache
 /docker/file_share/jupyter_data/.ipython
