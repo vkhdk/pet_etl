@@ -94,12 +94,13 @@ if __name__ == '__main__':
         'temp_f': Float}
 
     weather_sql_query = '''
-    CREATE TABLE IF NOT EXISTS weather_prod(weather_id TEXT,
-        date DATE,
-        time TIME,
-        city_name TEXT,
-        temp_c FLOAT,
-        temp_f FLOAT);
+    CREATE TABLE IF NOT EXISTS weather_prod(
+        weather_id TEXT NOT NULL PRIMARY KEY,
+        date DATE NOT NULL,
+        time TIME NOT NULL,
+        city_name TEXT NOT NULL,
+        temp_c FLOAT NOT NULL,
+        temp_f FLOAT NOT NULL);
     INSERT INTO weather_prod (weather_id,
         date,
         time,
