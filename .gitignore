@@ -11,3 +11,6 @@
 
 #postgresql_data
 /docker/file_share/postgresql_data
+
+#pgadmin_data
+/docker/file_share/pgadmin_data
