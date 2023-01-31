@@ -26,29 +26,29 @@ if __name__ == '__main__':
     logging.getLogger('googleapiclient.discovery_cache').setLevel(logging.ERROR)
     logger = logging.getLogger(__name__)
 
-    #just debug
-    city_names = ['Moscow', 'London']
-    columns = ['weather_id',
-               'date',
-               'time',
-               'city_name',
-               'temp_c',
-               'temp_f']
-    db_df = pd.DataFrame(columns=columns)
-
-    #take a city
-    for city in city_names:
-        #put city in question
-        question = f'weather {city}'
-        logger.info(f'...make soup for "{city}"')
-        #make soup with question
-        soup = get_data_from_api.soup_from_google_search(question)
-        logger.info(f'...make json for "{city}"')
-        #make json from soup
-        output_json = \
-        get_weather_from_google_search.google_soup_to_json_weather(soup)
-        #create a dictionary to save the results
-        data_dict = {
+    def make_weather_df(city_names):
+        city_names = city_names
+        columns = ['weather_id',
+            'date',
+            'time',
+            'city_name',
+            'temp_c',
+            'temp_f']
+        #create empty df
+        db_df = pd.DataFrame(columns=columns)
+        #take a city
+        for city in city_names:
+            #put city in question
+            question = f'weather {city}'
+            logger.info(f'...make soup for "{city}"')
+            #make soup with question
+            soup = get_data_from_api.soup_from_google_search(question)
+            logger.info(f'...make json for "{city}"')
+            #make json from soup
+            output_json = \
+            get_weather_from_google_search.google_soup_to_json_weather(soup)
+            #create a dictionary to save the results
+            data_dict = {
                      #create unique id
                      'weather_id': ETL_utilities.create_unique_id_from_date(),
                      #create date feature
@@ -60,10 +60,15 @@ if __name__ == '__main__':
                      'temp_c': json.loads(output_json)['temperature_c'],
                      'temp_f': json.loads(output_json)['temperature_f']
                      }
-        #convert dictionary to df for concat
-        data_dict_df = pd.DataFrame([data_dict])
-        db_df = pd.concat([db_df,data_dict_df])
+            #convert dictionary to df for concat
+            data_dict_df = pd.DataFrame([data_dict])
+            db_df = pd.concat([db_df,data_dict_df])
+        return db_df
 
+    #just debug
+    city_names = ['Moscow', 'London']
+
+    db_df = make_weather_df(city_names)
     
     ############
     #debug with write to csv
