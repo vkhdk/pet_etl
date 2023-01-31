@@ -1,5 +1,124 @@
 version: '3.9'
+
+#air flow variables
+x-airflow-config: &airflow-config
+  AIRFLOW__CORE__DAGS_FOLDER: /dags
+  AIRFLOW__CORE__EXECUTOR: CeleryExecutor
+  #create key by code:
+  #from cryptography.fernet import Fernet
+  #FERNET_KEY = Fernet.generate_key().decode()
+  AIRFLOW__CORE__FERNET_KEY: 9uwLzOsJF4r2fIJYpETbN4HLZwS4fG6cUPY-P9vomXE=
+  AIRFLOW__CORE__HOSTNAME_CALLABLE: airflow.utils.net:get_host_ip_address
+  AIRFLOW__CORE__SQL_ALCHEMY_CONN: postgres+psycopg2://airflow:airflow@airflow-db:5432/airflow
+
+  AIRFLOW__CORE__PARALLELISM: 128
+  AIRFLOW__CORE__DAG_CONCURRENCY: 16
+  AIRFLOW__CORE__MAX_ACTIVE_RUNS_PER_DAG: 4
+  AIRFLOW__CORE__LOAD_EXAMPLES: 'False'
+  AIRFLOW__CORE__LOAD_DEFAULT_CONNECTIONS: 'False'
+
+  AIRFLOW__EMAIL__DEFAULT_EMAIL_ON_RETRY: 'False'
+  AIRFLOW__EMAIL__DEFAULT_EMAIL_ON_FAILURE: 'False'
+
+  AIRFLOW__CELERY__BROKER_URL: redis://broker:6379/0
+
+  ##### ВОт тут надо переписать все под новые названия хостов и порты
+  AIRFLOW__CELERY__RESULT_BACKEND: db+postgresql://airflow:airflow@airflow_postgres_container:5432/airflow
+
+x-airflow-base: &airflow-base
+  build:
+    #path to docker files folder
+    context: ../docker_files/airflow_base_python
+    #docker file name for jupyter in docker files folder
+    dockerfile: dockerfile_airflow_base_python
+  entrypoint: /bin/bash
+  restart: always
+  volumes:
+    - ../file_share/airflow_base_python_data/dags:/dags
+    - ../file_share/airflow_base_python_data/requirements.txt:/requirements.txt
+  networks:
+    - airflow_postgres
+
 services:
+##### air flow setup start #####
+#redis as a Celery broker
+  broker:
+    hostname: broker_redis_container
+    container_name: broker_redis_container
+    build:
+      #path to docker files folder
+      context: ../docker_files/broker_redis
+      #docker file name for jupyter in docker files folder
+      dockerfile: dockerfile_broker_redis
+    networks:
+      - airflow_postgres
+
+#DB for the Airflow metadata
+  airflow-db:
+    hostname: airflow_postgres_container
+    container_name: airflow_postgres_container
+    build:
+      #path to docker files folder
+      context: ../docker_files/airflow_postgres
+      #docker file name for jupyter in docker files folder
+      dockerfile: dockerfile_airflow_postgres
+    #path to file share
+    volumes:
+      - ../file_share/airflow_postgres_data/:/var/lib/postgresql/data
+    #set the DB name, user and password
+    environment:
+      - POSTGRES_USER=airflow
+      - POSTGRES_PASSWORD=airflow
+      - POSTGRES_DB=airflow
+    ports:
+      - '5432:5432'
+    networks:
+      - airflow_postgres
+  #main container with Airflow Webserver, Scheduler, Celery Flower
+
+  airflow:
+    <<: *airflow-base
+    environment:
+      <<: *airflow-config
+      AIRFLOW__SCHEDULER__DAG_DIR_LIST_INTERVAL: 30
+      AIRFLOW__SCHEDULER__CATCHUP_BY_DEFAULT: 'False'
+      AIRFLOW__SCHEDULER__MAX_THREADS: 8
+
+      AIRFLOW__WEBSERVER__LOG_FETCH_TIMEOUT_SEC: 10
+
+    depends_on:
+      - airflow-db
+      - broker
+    command: >
+      -c " sleep 10 &&
+           pip install --user -r /requirements.txt &&
+           /entrypoint initdb &&
+          (/entrypoint webserver &) &&
+          (/entrypoint flower &) &&
+           /entrypoint scheduler"
+    ports:
+      # Celery Flower
+      - 5555:5555
+      # Airflow Webserver
+      - 8080:8080
+
+  # Celery worker, will be scaled using `--scale=n`
+  worker:
+    <<: *airflow-base
+    environment:
+      <<: *airflow-config
+    command: >
+      -c " sleep 10 &&
+           pip install --user -r /requirements.txt &&
+           /entrypoint worker"
+   
+    depends_on:
+      - airflow
+      - airflow-db
+      - broker
+
+##### air flow setup finish #####
+
   #jupyter
   jupyter:
     hostname: jupyter_container
@@ -35,7 +154,7 @@ services:
       POSTGRES_USER: 'dwh_postgres'
       POSTGRES_PASSWORD: 'dwh_postgres'
     ports:
-        - '5432:5432'
+        - '5433:5433'
     networks:
       - dwh_postgres
 
@@ -62,4 +181,6 @@ services:
 
 networks:
   dwh_postgres:
+    driver: bridge
+  airflow_postgres:
     driver: bridge

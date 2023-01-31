@@ -14,3 +14,6 @@
 
 #pgadmin data
 /docker/file_share/pgadmin_data
+
+#airflow postgres data
+/docker/file_share/airflow_postgres_data
