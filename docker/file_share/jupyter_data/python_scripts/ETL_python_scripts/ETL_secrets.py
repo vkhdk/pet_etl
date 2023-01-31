@@ -2,10 +2,10 @@
 
 # API credentials
 
-#DB credentials from docker-compose.yml
-postgres_db = 'postgres_db'
+#DWH credentials from docker-compose.yml
+postgres_db = 'dwh_postgres_db'
 #hostname from docker-compose.yml
-postgres_host = 'postgres_container'
-postgres_user = 'postgres'
-postgres_password = 'postgres'
+postgres_host = 'dwh_postgres_container'
+postgres_user = 'dwh_postgres'
+postgres_password = 'dwh_postgres'
 postgres_port = '5432'

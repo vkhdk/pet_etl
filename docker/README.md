@@ -8,4 +8,5 @@ https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi
 
 # pgadmin
 run on host http://localhost:5050/
+use password from DB to connect
 

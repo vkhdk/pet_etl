@@ -1,6 +1,4 @@
-#python_scripts cache
-
-#jupyter_data
+#jupyter data
 /docker/file_share/jupyter_data/python_scripts/ETL_python_scripts/__pycache__
 /docker/file_share/jupyter_data/python_scripts/ETL_python_scripts/content.csv
 /docker/file_share/jupyter_data/python_scripts/ETL_python_scripts/manual_run.log
@@ -11,8 +9,8 @@
 /docker/file_share/jupyter_data/.ipynb_checkpoints
 /docker/file_share/jupyter_data/.config
 
-#postgresql_data
-/docker/file_share/postgresql_data
+#DWH postgresql data
+/docker/file_share/dwh_postgresql_data
 
-#pgadmin_data
+#pgadmin data
 /docker/file_share/pgadmin_data
