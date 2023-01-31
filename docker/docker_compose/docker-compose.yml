@@ -8,8 +8,10 @@ x-airflow-config: &airflow-config
   #from cryptography.fernet import Fernet
   #FERNET_KEY = Fernet.generate_key().decode()
   AIRFLOW__CORE__FERNET_KEY: 9uwLzOsJF4r2fIJYpETbN4HLZwS4fG6cUPY-P9vomXE=
-  AIRFLOW__CORE__HOSTNAME_CALLABLE: airflow.utils.net:get_host_ip_address
-  AIRFLOW__CORE__SQL_ALCHEMY_CONN: postgres+psycopg2://airflow:airflow@airflow-db:5432/airflow
+  #AIRFLOW__CORE__HOSTNAME_CALLABLE: airflow.utils.net:get_host_ip_address
+
+  #"db+postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}"
+  AIRFLOW__CORE__SQL_ALCHEMY_CONN: postgres+psycopg2://airflow:airflow@airflow_postgres_container:5433/airflow
 
   AIRFLOW__CORE__PARALLELISM: 128
   AIRFLOW__CORE__DAG_CONCURRENCY: 16
@@ -22,8 +24,8 @@ x-airflow-config: &airflow-config
 
   AIRFLOW__CELERY__BROKER_URL: redis://broker:6379/0
 
-  ##### ВОт тут надо переписать все под новые названия хостов и порты
-  AIRFLOW__CELERY__RESULT_BACKEND: db+postgresql://airflow:airflow@airflow_postgres_container:5432/airflow
+  #"db+postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}"
+  AIRFLOW__CELERY__RESULT_BACKEND: db+postgresql://airflow:airflow@airflow_postgres_container:5433/airflow
 
 x-airflow-base: &airflow-base
   build:
@@ -32,7 +34,6 @@ x-airflow-base: &airflow-base
     #docker file name for jupyter in docker files folder
     dockerfile: dockerfile_airflow_base_python
   entrypoint: /bin/bash
-  restart: always
   volumes:
     - ../file_share/airflow_base_python_data/dags:/dags
     - ../file_share/airflow_base_python_data/requirements.txt:/requirements.txt
@@ -71,7 +72,7 @@ services:
       - POSTGRES_PASSWORD=airflow
       - POSTGRES_DB=airflow
     ports:
-      - '5432:5432'
+      - '5433:5433'
     networks:
       - airflow_postgres
   #main container with Airflow Webserver, Scheduler, Celery Flower
@@ -154,7 +155,7 @@ services:
       POSTGRES_USER: 'dwh_postgres'
       POSTGRES_PASSWORD: 'dwh_postgres'
     ports:
-        - '5433:5433'
+        - '5432:5432'
     networks:
       - dwh_postgres
 
